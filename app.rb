@@ -1,24 +1,20 @@
+# Gems
 require 'sinatra/base'
+require 'sinatra/activerecord'
 require 'sinatra/flash'
-require 'pg'
 require 'bcrypt'
 
-# require './datamapper_setup'
-
 # Models
-require './lib/db_connection'
 require './lib/user'
 require './lib/peep'
 
-# Helpers
-require './database_connection'
-
 class Chitter < Sinatra::Base
 
-  enable :sessions, :method_override
-  set :public_folder, File.dirname(__FILE__) + "/static"
-
+  register Sinatra::ActiveRecordExtension
   register Sinatra::Flash
+  set :database_file, 'config/database.yml'
+  set :public_folder, File.dirname(__FILE__) + '/static'
+  enable :sessions, :method_override
 
   # Index Page
   get '/' do
